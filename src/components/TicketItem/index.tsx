@@ -84,6 +84,18 @@ const TicketItem = (props: any) => {
         };
     };    
 
+    const getDepartArrivalTime = (props: any, segment: number) => {
+        const timeDepart =new Date(props.item.segments[0].date).toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute:'2-digit'
+        });;
+        
+        let timeArriv = new Date(props.item.segments[segment].date);
+        timeArriv.setMinutes( timeArriv.getMinutes() + props.item.segments[segment].duration );
+        
+        return `${timeDepart} - ${timeArriv.toLocaleTimeString()}`
+    };
+
     return (
         <TicketItemWrapper>
             <TicketHeaderWrapper>
@@ -99,7 +111,7 @@ const TicketItem = (props: any) => {
                             {props.item.segments[0].origin} - {props.item.segments[0].destination}
                         </TicketInfoText>
                         <TicketTimeText>
-                            {props.item.segments[0].date}
+                            {getDepartArrivalTime(props, 0)}
                         </TicketTimeText>
                     </TicketInfoColumn>
                     <TicketInfoColumn>
@@ -121,7 +133,9 @@ const TicketItem = (props: any) => {
                         <TicketInfoText>
                             {props.item.segments[1].origin} - {props.item.segments[1].destination}
                         </TicketInfoText>
-                        <TicketTimeText>{props.item.segments[1].date}</TicketTimeText>
+                        <TicketTimeText>
+                            {getDepartArrivalTime(props, 1)}
+                        </TicketTimeText>
                     </TicketInfoColumn>
                     <TicketInfoColumn>
                         <TicketInfoText>В пути</TicketInfoText>
